@@ -1,0 +1,11 @@
+{
+  "name": "line-gcloud",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "type": "commonjs",
+  "engines": { "node": ">=2x" },
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.x.x"
+  }
+}
