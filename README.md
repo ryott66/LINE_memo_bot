@@ -21,13 +21,23 @@ URL／メモを保存・表示・削除できる LINE Bot
 
 ## 💻 システム構成
 ```
-LINE → Messaging API → GAS → Spreadsheet
-     ← 返信
+  LINE
+   ↓（Webhook送信）
+【Cloud Run Functions（署名検証・セキュリティ境界）】
+   ↓（relay: base64 + HMAC）
+【GAS Web App（ビジネスロジック）】
+   ↓
+Spreadsheet（データ保存）
+   ↓
+  GAS
+   ↓
+LINE Messaging API（返信）
 ```
 1. ユーザーが Bot にメッセージ
-2. LINE Messaging API が GAS の webhook を叩く
-3. GASが内容を解析し、保存/削除/返答を処理
-4. GAS がメッセージを返信
+2. webhook が Cloud Run Functions (CRF) に送られる
+3. CRFでLINEからのリクエストであることをキーで認証 ⇒ GASにリクエストをリレー
+4. GASがリレーを認証し、スプシと接続してメモの保存/削除を処理
+5. GAS がAPIを叩いてメッセージを返信
 
 ---
 
@@ -43,7 +53,7 @@ Project
 ├─ test.js            # テスト
 └─ README.md
 ```
-### 💫 開発フロー
+### 💫 GAS開発フロー
 ```
 ┌────────┐     push       ┌──────────────┐
 │        │ ────────────→  │              │
