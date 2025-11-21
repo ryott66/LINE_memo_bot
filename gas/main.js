@@ -138,12 +138,12 @@ function handleDelete(userId, receivedMessage, sheetName) {
 function deleteFromSheat(name, index) {
   const theSheet = getOrCreateSheet(name)
   const lastRow = theSheet.getLastRow();
-
   if (index < 1 || index > lastRow) {
     return '無効な番号です。';
   }
 
   theSheet.deleteRow(index);
-  return `番号 ${index} を削除しました。`;
+  const updated = readSheat(name);
+  return `番号 ${index} を削除しました。\n\n${updated}`;
 }
 

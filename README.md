@@ -69,4 +69,8 @@ Project
 ```
 ---
 
-
+### 🔷 CRFデプロイコマンド
+```
+gcloud functions deploy webhook --gen2 --region=asia-northeast1 --runtime=nodejs22 --source=. --entry-point=webhook --trigger-http --allow-unauthenticated --env-vars-file=env.yaml --set-secrets LINE_CHANNEL_SECRET=LINE_CHANNEL_SECRET:latest --set-secrets RELAY_SECRET=RELAY_SECRET:latest
+```
+---
