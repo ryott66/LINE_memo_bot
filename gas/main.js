@@ -83,7 +83,11 @@ function createReplyMessage(userId, receivedMessage) {
   }
   if (receivedMessage === 'メモ削除モード') {
     setUserMode(userId, 'waiting_memo_delete');
-    return '削除したい番号を送ってください。（0でキャンセル）';
+    const memo = readSheat(getMemoSheetName(userId));
+    if (memo === 'データが存在しません。') {
+      return 'メモがありません。';
+    }
+    return '削除したい番号を送ってください。（0でキャンセル）\n\n' + memo;
   }
   if (receivedMessage === 'URL') {
     return readSheat(getUrlSheetName(userId));
